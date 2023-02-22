@@ -1,13 +1,20 @@
-<div class="row" class="list-group-item clearfix">
+<div class="row" class="list-group-item clearfix" style="background-color:lightgray;">
   <div class="col-xs-12" style="display: inline-flex;">
-      <h4> Contacts</h4>
-
-      <button class="btn btn-success" style="margin-left: auto;">New Contact</button>
-
+      <h4 > Contacts</h4>
+       <button class="btn btn-success" style="margin-left: auto;">New Contact</button>
   </div>
 </div>
-
 <div class="row">
-  <div class="col-xs-12">
-  </div>
-</div>
+ <div class="col-xs-12">
+    <app-contact-item
+      *ngFor="let contactEl of contacts"
+      [contact]="contactEl"
+      (contactSelected)="onSelected(contactEl)"></app-contact-item>
+    </div>
+    </div>
+
+
+
+
+
+

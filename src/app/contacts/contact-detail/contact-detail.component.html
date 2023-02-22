@@ -1,1 +1,38 @@
-<p>contact-detail works!</p>
+
+<div class="list-group-item clearfix" style="background-color: lightgrey;">
+  <div class="row">
+      <h1 class="headerfont Item1">{{contact.name}}</h1>
+
+  </div>
+  <div class="row">
+      <div class="col-xs-12"  style="display: inline-flex;" >
+          <div>
+              <img class="img-responsive"
+              [src]="contact.imageUrl"
+              alt="{{contact.name}}" >
+          </div>
+
+          <hr>
+          <div class="row">
+              <div class="col-xs-12">
+                  <div class="btn-group">
+                      <button type="button" class="btn btn-success" style="margin-left: 25px; margin-top: 145px;">Edit</button>
+                      <button type="button" class="btn btn-danger" style="margin-left: 27px; margin-top: 145px;">Delete</button>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<div class="list-group-item clearfix">
+  <p>Phone: {{contact.phone}}</p>
+  <p>Email: {{contact.email}}</p>
+</div>
+
+
+
+
+
+
