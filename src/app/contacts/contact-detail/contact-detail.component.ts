@@ -8,7 +8,6 @@ import { Contact } from '../contact.model';
   styleUrls: ['./contact-detail.component.css']
 })
 export class ContactDetailComponent implements OnInit{
-[x: string]: any;
 
   @Input() contact!: Contact;
 
