@@ -7,14 +7,20 @@ import {MOCKCONTACTS} from './MOCKCONTACTS';
 })
 
 export class ContactService {
-[x: string]: any;
 
-contactSelected = new EventEmitter<Contact>();
+
+contactSelected = new EventEmitter<Contact>()
+
+contactChanged = new EventEmitter<Contact[]>()
+
 
 private contacts: Contact [] = [new Contact('1', 'R. Kent Jackson', 'jacksonk@byui.edu', '208-496-3771', '../../assets/jacksonk.jpg', []),
 new Contact('2', 'Rex Barzee', 'barzeer@byui.edu', '208-496-3768', '../../assets/barzeer.jpg', [])
 ];
- 
+
+constructor() {this.contacts = MOCKCONTACTS;
+
+  }
 
 getContacts(): Contact []{
   return this.contacts.slice();
@@ -30,8 +36,23 @@ getContact(id: string) : Contact {
   return null!;
 }
 
-constructor() {
-this.contacts = MOCKCONTACTS;
+getSingleContact(id: number){
+  return this.contacts[id];
+}
 
+deleteContact(contact: Contact) {
+  if (!contact) {
+    return;
 }
+let pos = this.contacts.indexOf(contact);
+if (pos < 0) {
+    return;
 }
+this.contacts.splice(pos, 1);
+let contactsListClone = this.contacts.slice();
+this.contactChanged.next(contactsListClone);
+}
+ }
+
+
+
