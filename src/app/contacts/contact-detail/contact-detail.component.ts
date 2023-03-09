@@ -17,7 +17,8 @@ export class ContactDetailComponent implements OnInit{
 
 
 
-  contacts: Contact[] =[ new Contact('1', 'R. Kent Jackson','jacksonk@byui.edu', '208-496-3771','../../assets/jacksonk.jpg', [])
+  contacts: Contact[] =[ new Contact('1', 'R. Kent Jackson','jacksonk@byui.edu', '208-496-3771','../../assets/jacksonk.jpg', []),
+                         new Contact('2', 'Bradley Armstrong','armstrongb@byui.edu', '208-496-3766','../../assets/armstrongb.jpg', [])
   ];
 
   constructor(private contactService: ContactService,
@@ -35,6 +36,10 @@ export class ContactDetailComponent implements OnInit{
               this.contact = this.contactService.getSingleContact(this.id);
           }
         );
+  }
+
+  onEditContact() {
+    this.router.navigate(['edit'], {relativeTo: this.route})
   }
 
   onDelete() {

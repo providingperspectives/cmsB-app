@@ -14,6 +14,7 @@ contactSelected = new Subject<Contact>();
 contactChanged = new Subject<Contact[]>();
 contactListChangedEvent = new Subject <Contact[]>();
 contactChangedEvent = new Subject<Contact[]>();
+startedEditing = new Subject<number>();
 maxContactId: number;
 
 
@@ -61,6 +62,7 @@ addContact(newContact: Contact) {
   if (!newContact) {
       return;
   }
+  
   this.maxContactId++;
   newContact.id = this.maxContactId.toString();
   this.contacts.push(newContact)

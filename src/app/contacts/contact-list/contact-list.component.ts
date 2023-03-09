@@ -31,8 +31,7 @@ export class ContactListComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(): void {
-
-      this.clChangeSub.unsubscribe();
+    this.clChangeSub.unsubscribe();
     }
 
 onNewContact() {

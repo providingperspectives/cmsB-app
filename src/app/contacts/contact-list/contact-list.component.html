@@ -1,14 +1,19 @@
 <div class="row" class="list-group-item clearfix" style="background-color:lightgray;">
   <div class="col-xs-12" style="display: inline-flex;">
-      <h4 > Contacts</h4>
-       <button  (click)="onNewContact()"    class="btn btn-success" style="margin-left: auto;">New Contact</button>
+      <h4> Contacts</h4>
+      <a [routerLink]="['new']" class="btn btn-success" style="margin-left: auto;">New Contacts</a>
+       <!--<button  (click)="onNewContact()"
+       class="btn btn-success"
+       style="margin-left: auto;">New Contact</button>-->
   </div>
 </div>
 <div class="row">
  <div class="col-xs-12">
     <app-contact-item
-      *ngFor="let contactEl of contacts; let i = index" [contact]="contactEl" [index]="i"
-      [contact]="contactEl"></app-contact-item>
+      *ngFor="let contactEl of contacts; let i = index"
+      [contact]="contactEl" [index]="i"
+      dnd-draggable [dragEnabled]="true" [dragData]="contactEl" [dropZones]="['contactGroup']"
+      ></app-contact-item>
     </div>
     </div>
 
