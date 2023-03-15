@@ -54,7 +54,7 @@ app.use('/documents', documentRoutes);
 
 // Tell express to map all other non-defined routes back to the index page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/cmsb/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/cms-b-app/index.html'));
 });
 
 // Define the port address and tell express to use this port
