@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MessageService } from './message.service';
 import { Message } from './message.model';
 
@@ -8,22 +8,22 @@ import { Message } from './message.model';
   styleUrls: ['./messages.component.css'],
   providers: [MessageService]
 })
-export class MessagesComponent implements OnInit{
+export class MessagesComponent  {
 
-selectedMessage!: Message;
+  messages: Message[] =[];
+
+//selectedMessage!: Message;
 
 
-constructor(private messageService: MessageService){ }
+//constructor(private messageService: MessageService){ }
 
-ngOnInit()  {
-  this.messageService.messageSelected
-  .subscribe(
-    (message:Message) => {
-      this.selectedMessage = message;
-    });
+//ngOnInit()  {
+ // this.messageService.messageSelected
+  //.subscribe(
+    //(message:Message) => {
+     // this.selectedMessage = message;
+    //});
+
+//}
 
 }
-
-}
-
-

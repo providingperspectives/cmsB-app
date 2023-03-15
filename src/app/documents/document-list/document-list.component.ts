@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import { Document } from '../document.model';
 import { DocumentService } from '../document.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,19 +11,32 @@ import { Subscription } from 'rxjs';
 })
 export class DocumentListComponent implements OnInit, OnDestroy{
 
- documents!: Document [];
+  @Output() documentWasSelceted= new EventEmitter<Document>();
+
  private docChangeSub!: Subscription;
+ term!: string;
+ documents: Document[] = [];
+
+ onDocumentSelected(documents: Document) {
+  this.documentWasSelceted.emit(documents);
+  console.log('this document was selected '+document)
+}
+
 
 constructor(private documentService: DocumentService,
             private route:ActivatedRoute,
             private router:Router){}
 
   ngOnInit() {
-    this.documents = this.documentService.getDocuments();
-    this.docChangeSub = this.documentService.documentChanged
-      .subscribe((documents: Document[]) =>{
+    this.documentService.getDocuments()
+    .subscribe(
+      (documents: Document[]) => {
         this.documents = documents;
-      });
+      },
+      (error: any) => {
+        console.log('Error fetching documents: ', error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

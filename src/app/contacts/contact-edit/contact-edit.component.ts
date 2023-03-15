@@ -80,15 +80,15 @@ onRemoveItem(){
     {
       console.log('this is the state of this edit mode'+ this.editMode +' in onSubmit')
       this.contactService.updateContact(this.originalContact, newContact);
-      console.log('Update Succsess')
+      console.log('Update Successful')
     } else {
       this.contactService.addContact(newContact);
-      console.log('Addition Success')
+      console.log('Addition Successful')
     }
     console.log(this.contactService.getContacts())
     this.router.navigate(['/contacts']);
   }
-  
+
 ngOnInit(){
   this.route.params.subscribe(
     (params: Params) => {

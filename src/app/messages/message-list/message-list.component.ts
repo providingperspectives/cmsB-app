@@ -9,24 +9,24 @@ import { MessageService } from '../message.service';
 })
 export class MessageListComponent implements OnInit{
 
-  messages: Message[] =[];
+  message: Message[] =[];
 
 
-  onAddMessage(message: Message){
-    this.messages.push(message);
-
-  }
 
 
-constructor(private mlService: MessageService){}
+
+constructor(private messageService: MessageService){}
 
 ngOnInit() {
- this.messages = this.mlService.getMessages();
- this.mlService.messagesChanged
- .subscribe(
-  (messages:Message[]) => {
-    this.messages = messages
-  });
+  this.messageService.getMessages()
+  .subscribe(
+    (messages: Message[]) => {
+      this.message = messages;
+    },
+    (error: any) => {
+      console.error('Error fetching messages:', error);
+    }
+  );
 }
 }
 

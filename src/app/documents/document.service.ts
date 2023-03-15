@@ -1,7 +1,9 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import { Document } from './document.model';
 import { Subject } from 'rxjs';
+import { Observable, catchError, throwError, tap } from 'rxjs';
 
 
 
@@ -23,13 +25,29 @@ export class DocumentService{
  new Document('430','WDD-430','Full-Stack Development','https://byui.instructure.com/courses/219644',[]),
  new Document('430','WDD-430','Full-Stack Development','https://byui.instructure.com/courses/219644',[])];
 
- constructor() {this.documents = MOCKDOCUMENTS;
+ constructor(private http: HttpClient) {this.documents = MOCKDOCUMENTS;
                 this.maxDocumentId = this.getMaxId();}
 
- getDocuments(): Document []{
+ //getDocuments(): Document []{
 
-  return this.documents.slice();
- }
+ // return this.documents.slice();
+ //}
+
+ getDocuments(): Observable<Document[]> {
+  return this.http.get<Document[]>('https://cmsb-app-default-rtdb.firebaseio.com/documents.json')
+    .pipe(
+      tap((documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentListChangedEvent.next(this.documents.slice());
+      }),
+      catchError(error => {
+        console.error(error);
+        return throwError(error);
+      })
+    );
+}
 
   getDocument(id: string) : Document {
     for (let document of this.documents) {
@@ -59,8 +77,9 @@ export class DocumentService{
     this.maxDocumentId++;
     newDocument.id = this.maxDocumentId.toString();
     this.documents.push(newDocument)
-    let documentsListClone = this.documents.slice();
-    this.documentListChangedEvent.next(documentsListClone);
+    let documentListClone = this.documents.slice();
+    //this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments(documentListClone);
 
   }
 
@@ -73,8 +92,9 @@ if (pos < 0) {
    return;
 }
 this.documents.splice(pos, 1);
-let documentsListClone = this.documents.slice();
-this.documentListChangedEvent.next(documentsListClone)
+let documentListClone = this.documents.slice();
+//this.documentListChangedEvent.next(documentsListClone);
+this.storeDocuments(documentListClone);
 }
 
 updateDocument(originalDocument: Document, newDocument: Document) {
@@ -87,8 +107,9 @@ updateDocument(originalDocument: Document, newDocument: Document) {
   }
   newDocument.id = originalDocument.id;
   this.documents[pos] = newDocument;
-  let documentsListClone = this.documents.slice();
-  this.documentListChangedEvent.next(documentsListClone);
+  let documentListClone = this.documents.slice();
+  //this.documentListChangedEvent.next(documentsListClone);
+  this.storeDocuments(documentListClone);
 
 }
 
@@ -103,5 +124,24 @@ getMaxId(): number {
   return maxId;
 }
 
+storeDocuments(documents: Document[]) {
+  const documentsString = JSON.stringify(documents);
 
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  this.http
+    .put('https://cmsb-app-default-rtdb.firebaseio.com/documents.json',
+    documentsString, { headers })
+    .subscribe(
+      (response) => {
+        console.log('Documents saved successfully', response);
+      },
+      (error) => {
+        console.error('Error saving documents: ', error);
+      });
+
+
+}
 }

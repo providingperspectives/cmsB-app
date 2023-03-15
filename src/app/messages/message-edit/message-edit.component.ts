@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 
@@ -11,7 +12,9 @@ import { MessageService } from '../message.service';
 export class MessageEditComponent implements OnInit{
 
 
-  constructor(private mlService: MessageService){}
+
+  constructor(private messageService: MessageService,
+              private route: ActivatedRoute, private router: Router){}
 
   ngOnInit() { }
 
@@ -24,22 +27,24 @@ export class MessageEditComponent implements OnInit{
   currentSender: string ='1';
 
 
-  onSendMessage() {
-    const ingID = this.idInputRef.nativeElement.value;
-    const ingSubject = this.subjectInputRef.nativeElement.value;
-    const ingMessage = this.msgTextInputRef.nativeElement.value;
+   
+
+   
+   onSendMessage() {
+     const msgSubject = this.subjectInputRef.nativeElement.value;
+     const msgText = this.msgTextInputRef.nativeElement.value;
+     const message = new Message ('3', "subject", msgText, this.currentSender);
+ 
+     // this.addMessageEvent.emit(message)
+     this.messageService.addMessage(message)
+   }
+ 
+   onClear() {
+     this.subjectInputRef.nativeElement.value = "";
+     this.msgTextInputRef.nativeElement.value = "";
+   }
+ }
 
 
-    const newMessage = new Message('3', ingSubject, ingMessage, this.currentSender);
-    this.mlService.addMessage(newMessage);
-  }
 
-onClear(){
-  this.subjectInputRef.nativeElement.value='';
-  this.msgTextInputRef.nativeElement.value='';
-
-}
-
-
-
-  }
+  
