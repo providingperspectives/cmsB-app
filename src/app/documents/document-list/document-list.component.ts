@@ -27,28 +27,29 @@ constructor(private documentService: DocumentService,
             private route:ActivatedRoute,
             private router:Router){}
 
-  ngOnInit() {
-    this.documentService.getDocuments()
-    .subscribe(
-      (documents: Document[]) => {
-        this.documents = documents;
-      },
-      (error: any) => {
-        console.log('Error fetching documents: ', error);
-      }
-    );
+ngOnInit() {
+this.documentService.getDocuments()
+.subscribe(
+  (documents: Document[]) => {
+    this.documents = documents;
+  },
+  (error: any) => {
+    console.log('Error fetching documents: ', error);
   }
-
-  ngOnDestroy(): void {
-    this.docChangeSub.unsubscribe();
-  }
-
-
+);
+}
   onNewDocument(){
     this.router.navigate(['newDocument'], {relativeTo: this.route});
 
    }
 
+  ngOnDestroy(): void {
+    this.docChangeSub.unsubscribe();
+  }
+
+  search(value: string) {
+    this.term = value;
+  }
 
 }
 

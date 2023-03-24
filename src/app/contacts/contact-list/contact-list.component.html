@@ -11,7 +11,7 @@
             <div class="glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
           </div>
           <div class="pull-right pad-left-right">
-            <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+            <a class="btn btn-success" [routerLink]="['newContact']">New Contact</a>
             <!--<button (click)="onNewContact()" class="btn btn-success" style="margin-left: auto;">New Contact</button>-->
           </div>
         </div>
@@ -21,13 +21,10 @@
 </div>
 
 <div class="row">
- <div class="col-xs-12">
-    <app-contact-item
-      *ngFor="let contactEl of contacts | contactsFilter: term; let i = index"
-      [contact]="contactEl" [index]="i"
+  <div class="col-xs-12">
+  <app-contact-item
+      *ngFor="let contactEl of contacts | contactsFilter: term; let i = index; " [contact]="contactEl" [index]="i"
       dnd-draggable [dragEnabled]="true" [dragData]="contactEl" [dropZones]="['contactGroup']"
-      ></app-contact-item>
-    </div>
-    </div>
-
-
+  ></app-contact-item>
+  </div>
+</div>

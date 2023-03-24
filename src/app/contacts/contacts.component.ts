@@ -9,6 +9,7 @@ import { ContactService } from './contact.service';
   providers: [ContactService]
 })
 export class ContactsComponent  implements OnInit{
+  contacts!: Contact [];
 
   selectedContact!: Contact;
 

@@ -23,12 +23,13 @@ export class ContactListComponent implements OnInit {
 
 
   ngOnInit(){
-    this.contactService.getContacts().subscribe(
+    this.contactService.getContacts()
+    .subscribe(
       (contacts: Contact[]) => {
         this.contacts = contacts;
       },
-      (error: any) => {
-        console.error('Error fetching contacts:', error);
+      (err: any) => {
+        console.error('Error fetching contacts:', err);
       }
     );
 

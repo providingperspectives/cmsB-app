@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {  Observable, Subject, throwError } from 'rxjs';
-import { catchError, tap } from "rxjs/operators";
+import { catchError, Observable, Subject, tap, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Contact} from './contact.model';
 import {MOCKCONTACTS} from './MOCKCONTACTS';
@@ -20,16 +19,19 @@ startedEditing = new Subject<number>();
 maxContactId: number;
 
 
-private contacts: Contact [] = [new Contact('1', 'R. Kent Jackson', 'jacksonk@byui.edu', '208-496-3771', '../../assets/images/jacksonk.jpg', []),
-new Contact('2', 'Rex Barzee', 'barzeer@byui.edu', '208-496-3768', '../../assets/images/barzeer.jpg', [])
-];
+contacts: Contact [];
 
+constructor(private http: HttpClient)
+              { this.contacts = MOCKCONTACTS;
+              this.maxContactId = this.getMaxId();
+
+  }
 
 getContacts(): Observable<Contact[]>{
 
 return this.http.get<Contact[]>('https://cmsb-app-default-rtdb.firebaseio.com/contacts.json')
 .pipe(
-  tap((contacts: Contact[]) => {
+  tap(contacts => {
     this.contacts = contacts;
     this.maxContactId = this.getMaxId();
     this.contacts.sort((a, b) => a.name.localeCompare(b.name));
@@ -115,7 +117,7 @@ storeContacts(contacts: Contact[]) {
   });
 
   this.http
-    .put('https://cmsb-app-default-rtdb.firebaseio.com/contacts.json',contactString, { headers})
+    .put('https://cmsb-app-default-rtdb.firebaseio.com/contacts.json', contactString, { headers})
     .subscribe(
       (response) => {
         console.log('Contact saved successfully', response);
@@ -138,11 +140,7 @@ getMaxId(): number {
   return maxId;
 }
 
-constructor(private http: HttpClient)
-              { this.contacts = MOCKCONTACTS;
-              this.maxContactId = this.getMaxId();
 
-  }
 
 
 
