@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
 
@@ -12,7 +12,7 @@ import { ContactService } from '../contact.service';
 })
 export class ContactDetailComponent implements OnInit{
 
-  @Input() contact!: Contact;
+  contact!: Contact;
   id!: number;
 
 

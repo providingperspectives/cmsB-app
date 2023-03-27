@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 
-router.get('/', async (req, res, next) => {
+router.get(' ', async (req, res, next) => {
     try {
        const messages = await Messages.find();
        return res.status(200).json({ messages });

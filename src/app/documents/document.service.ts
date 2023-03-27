@@ -28,7 +28,8 @@ export class DocumentService{
  //}
 
 getDocuments(): Observable<Document[]> {
-return this.http.get<Document[]>('https://cmsb-app-default-rtdb.firebaseio.com/documents.json')
+//return this.http.get<Document[]>('https://cmsb-app-default-rtdb.firebaseio.com/documents.json')
+return this.http.get<Document[]>('http://localhost:3000/api/documents')
 .pipe(
 tap((documents: Document[]) => {
   this.documents = documents;
@@ -75,9 +76,8 @@ document.id ='';
 const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
 // add to database
-this.http.post<{ message: string, document: Document }>('http://localhost:3000/documents',
-document,
-{ headers: headers })
+this.http.post<{ message: string, document: Document }>('http://localhost:3000/api/documents',
+document, { headers: headers })
 .subscribe(
 (responseData) => {
 // add new document to documents
@@ -106,10 +106,10 @@ return;
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     // update database
-    this.http.put('http://localhost:3000/documents/' + originalDocument.id,
+    this.http.put('http://localhost:3000/api/documents/' + originalDocument.id,
       newDocument, { headers: headers })
       .subscribe(
-        (response) => {
+        (response:any) => {
           this.documents[pos] = newDocument;
           this.sortAndSend();
         }
@@ -123,8 +123,8 @@ return;
       'Content-Type': 'application/json'
     });
 
-  this.http
-  .put('https://cmsb-app-default-rtdb.firebaseio.com/documents.json',
+  //this.http.put('https://cmsb-app-default-rtdb.firebaseio.com/documents.json'
+  this.http.put('http://localhost:3000/api/documents',
   documentsString, { headers })
   .subscribe(
   (response) => {
@@ -151,7 +151,7 @@ return;
 
 
     // delete from database
-this.http.delete('http://localhost:3000/documents/' + document.id)
+this.http.delete('http://localhost:3000/api/documents/' + document.id)
 .subscribe((response) => {
           this.documents.splice(pos, 1);
           this.sortAndSend();

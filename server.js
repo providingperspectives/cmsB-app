@@ -49,9 +49,9 @@ app.use(express.static(path.join(__dirname, 'dist/cmsb')));
 
 // Tell express to map the default route ('/') to the index route
 app.use('/', index);
-app.use('/messages', messageRoutes);
-app.use('/contacts', contactRoutes);
-app.use('/documents', documentRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/contacts', contactRoutes);
+app.use('/api/documents', documentRoutes);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 
@@ -71,6 +71,11 @@ const server = http.createServer(app);
 server.listen(port, function() {
   console.log('API running on localhost: ' + port)
 });
+
+ //Refenrece CORS
+ const cors = require('cors')
+ // use CORS
+ app.use(cors());
 
 // establish a connection to the mongo database
 mongoose.set('strictQuery', false);

@@ -4,7 +4,7 @@ const Contact = require('../models/contact');
 var express = require('express');
 var router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get(' ', async (req, res, next) => {
     try {
        const contacts = await Contact.find();
        return res.status(200).json({ contacts });

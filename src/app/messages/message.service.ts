@@ -23,7 +23,7 @@ new Message('3','Congrats','Wonderful attempt keep it up','Paul Murff')];
 
 getMessages(): Observable<Message[]>{
   //return this.messages.slice();
-  return this.http.get<Message[]>('https://cmsb-app-default-rtdb.firebaseio.com/messages.json')
+  return this.http.get<Message[]>('http://localhost:3000/api/messages')
   .pipe(
     tap((messages: Message[])=>{
       this.messages = messages;
@@ -48,7 +48,7 @@ getMessage(id: string) : Message {
   }
   return null!;
 }
-
+/*
 addMessage(messages: Message) {
   this.messages.push(messages);
   this.messageChanged.emit(this.messages.slice());
@@ -86,6 +86,54 @@ getMaxId(): number {
       }
   }
   return maxId;
+}
+*/
+addMessage(messages: Message) {
+  if (!messages) {
+    return;
+  }
+
+  // make sure id of the new Document is empty
+  messages.id = '';
+
+  const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+  // add to database
+  this.http.post<{ message: string, messages: Message }>('http://localhost:3000/api/messages',
+  messages,
+    { headers: headers })
+    .subscribe(
+      (responseData) => {
+        // add new document to documents
+        this.messages.push(responseData.messages);
+        this.sortAndSend();
+      }
+    );
+}
+
+
+getMaxId(): number {
+  let maxId = 0;
+  for (let messages of this.messages) {
+      let currentId = parseInt(messages.id);
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+  }
+  return maxId;
+}
+
+sortAndSend(){
+this.messages.sort((a,b)=>{
+  if (a.sender < b.sender) {
+    return -1;
+  }
+  if (a.sender > b.sender) {
+    return 1;
+  }
+  return 0;
+});
+this.messageListChangedEvent.next(this.messages.slice())
 }
 
 constructor(private http: HttpClient){

@@ -17,8 +17,8 @@ export class DocumentListComponent implements OnInit, OnDestroy{
  term!: string;
  documents: Document[] = [];
 
- onDocumentSelected(documents: Document) {
-  this.documentWasSelceted.emit(documents);
+ onDocumentSelected(document: Document) {
+  this.documentWasSelceted.emit(document);
   console.log('this document was selected '+document)
 }
 
@@ -28,8 +28,7 @@ constructor(private documentService: DocumentService,
             private router:Router){}
 
 ngOnInit() {
-this.documentService.getDocuments()
-.subscribe(
+this.documentService.getDocuments().subscribe(
   (documents: Document[]) => {
     this.documents = documents;
   },
@@ -43,7 +42,7 @@ this.documentService.getDocuments()
 
    }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.docChangeSub.unsubscribe();
   }
 
