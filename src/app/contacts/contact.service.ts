@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError, Observable, Subject, tap, throwError} from 'rxjs';
+import { Observable, Subject, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
+import { catchError, tap } from "rxjs/operators";
 import {Contact} from './contact.model';
 import {MOCKCONTACTS} from './MOCKCONTACTS';
 

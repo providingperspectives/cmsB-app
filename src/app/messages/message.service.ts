@@ -1,7 +1,8 @@
 import {Injectable, EventEmitter, } from '@angular/core';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
 import { Message } from './message.model';
-import { catchError, Observable, Subject, tap, throwError} from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable, Subject, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
